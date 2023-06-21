@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Asset {
+  id           String        @id @map("_id")
+  symbol       String
+  price        Float
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  WalletAssets WalletAsset[]
+  Orders       Order[]
+}
+
+model Wallet {
+  id           String        @id @map("_id")
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  WalletAssets WalletAsset[]
+  Orders       Order[]
+}
+
+model WalletAsset {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  Wallet     Wallet   @relation(fields: [wallet_id], references: [id])
+  wallet_id  String
+  Asset      Asset    @relation(fields: [asset_id], references: [id])
+  asset_id   String
+  shares     Int      @db.Int
+  version    Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([wallet_id, asset_id])
+}
+
+model Order {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  Wallet       Wallet        @relation(fields: [wallet_id], references: [id])
+  wallet_id    String
+  Asset        Asset         @relation(fields: [asset_id], references: [id])
+  asset_id     String
+  shares       Int           @db.Int
+  price        Float
+  type         OrderType
+  status       OrderStatus
+  partial      Int           @db.Int
+  version      Int
+  created_at   DateTime      @default(now())
+  updated_at   DateTime      @updatedAt
+  Transactions Transaction[]
+}
+
+enum OrderType {
+  BUY
+  SELL
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  CLOSED
+  FAILED
+}
+
+model Transaction {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  Order                 Order    @relation(fields: [order_id], references: [id])
+  order_id              String   @db.ObjectId
+  related_investor_id   String
+  broker_transaction_id String
+  shares                Int      @db.Int
+  price                 Float
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+}
