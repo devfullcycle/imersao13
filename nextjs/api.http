@@ -5,3 +5,6 @@ GET http://localhost:8000/wallets/wallet1/orders
 
 ###
 POST http://localhost:8000/wallets/wallet1/orders
+
+###
+GET http://localhost:3001/api/wallets/wallet1/assets

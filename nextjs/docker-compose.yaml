@@ -7,5 +7,15 @@ services:
       - 3001:3000
     volumes:
       - .:/home/node/app
+    extra_hosts:
+      - "host.docker.internal:172.17.0.1"
+
+
+# /etc/hosts (Linux ou Mac)
+
+# 127.0.0.1 host.docker.internal
   
+
+# C:\Windows\system32\drivers\etc\hosts (Windows)
   
+# 127.0.0.1 host.docker.internal

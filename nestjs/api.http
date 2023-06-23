@@ -45,7 +45,7 @@ POST http://localhost:3000/wallets/wallet1/orders
 Content-Type: application/json
 
 {
-  "asset_id": "asset2",
+  "asset_id": "asset1",
   "shares": 5,
   "price": 100,
   "type": "SELL"

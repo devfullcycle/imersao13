@@ -25,3 +25,10 @@ export type Order = {
   status: "PENDING" | "OPEN" | "CLOSED" | "FAILED";
   Asset: Pick<Asset, "id" | "symbol">;
 };
+
+export type AssetDaily = {
+  id: string;
+  asset_id: string;
+  date: string;
+  price: number;
+};
