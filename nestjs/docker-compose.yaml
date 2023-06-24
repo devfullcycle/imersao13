@@ -21,6 +21,15 @@ services:
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_REPLICA_SET_KEY: 123456
       MONGODB_DATABASE: nest
+  
+  # se você usou a configuração acima no seu Mac m1/m2 e não der certo, tenta esta
+  # db:
+  #   build: ./.docker/mongo
+  #   environment:
+  #     MONGO_INITDB_ROOT_PASSWORD: root
+  #     MONGO_REPLICA_HOST: db
+  #   volumes:
+  #      - mongodb_data:/data/db
 
 volumes:
   mongodb_data:
